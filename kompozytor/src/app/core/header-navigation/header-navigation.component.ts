@@ -1,13 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+
 
 @Component({
   selector: 'app-header-navigation',
   templateUrl: './header-navigation.component.html',
-  styleUrls: ['./header-navigation.component.css']
+  styleUrls: ['./header-navigation.component.scss']
 })
 export class HeaderNavigationComponent implements OnInit {
 
-  constructor() { }
+  texts = ['Wybieranie', 'Komponowanie', 'Drukowanie'];
+  links = ['/setlist', '/composing', '/printing'];
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

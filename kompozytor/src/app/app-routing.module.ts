@@ -1,6 +1,5 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Route} from "@angular/router";
-import {AboutComponent} from "./shared/about/about.component";
 import {SetListComponent} from "./sets/set-list/set-list.component";
 import {ComposingComponent} from "./composer/composing/composing.component";
 import {PrintViewComponent} from "./printing/print-view/print-view.component";
