@@ -1,6 +1,19 @@
-<nav>
+<!--<nav>
   <div id="buttons-box" *ngFor="let link of links;let i = index">
-    <app-nav-button [num]=i [tekst]=texts[i] routerLink={{links[i]}} routerLinkActive="active"></app-nav-button>
+    <app-nav-button [num]=i [tekst]=texts[i] routerLink={{link}} routerLinkActive="active"></app-nav-button>
   </div>
+</nav>-->
+
+
+<nav mat-tab-nav-bar>
+  <a mat-tab-link
+     *ngFor="let link of links ;let i = index"
+     [routerLink]="link"
+     routerLinkActive #rla="routerLinkActive"
+     [active]="rla.isActive">
+    {{texts[i]}}
+  </a>
 </nav>
+
+
 

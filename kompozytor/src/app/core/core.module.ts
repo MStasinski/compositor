@@ -3,18 +3,19 @@ import {CommonModule} from '@angular/common';
 import {HeaderNavigationComponent} from './header-navigation/header-navigation.component';
 import {RouterModule} from '@angular/router';
 import {SharedModule} from '../shared/shared.module';
-import {NavButtonComponent} from '../shared/nav-button/nav-button.component';
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule,
+    NoopAnimationsModule
   ],
   exports: [HeaderNavigationComponent],
   declarations: [
-    HeaderNavigationComponent,
-    NavButtonComponent]
+    HeaderNavigationComponent]
 })
 export class CoreModule {
 }

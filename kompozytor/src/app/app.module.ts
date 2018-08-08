@@ -19,7 +19,8 @@ import {PrintingModule} from "./printing/printing.module";
     AppRoutingModule,
     SetsModule,
     ComposerModule,
-    PrintingModule
+    PrintingModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
