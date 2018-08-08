@@ -7,6 +7,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {SetsModule} from "./sets/sets.module";
 import {ComposerModule} from "./composer/composer.module";
 import {PrintingModule} from "./printing/printing.module";
+import {NgDragDropModule} from 'ng-drag-drop';
 
 
 @NgModule({
@@ -20,7 +21,7 @@ import {PrintingModule} from "./printing/printing.module";
     SetsModule,
     ComposerModule,
     PrintingModule,
-
+    NgDragDropModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
