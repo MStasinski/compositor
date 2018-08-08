@@ -6,6 +6,7 @@ import {PrintViewComponent} from "./printing/print-view/print-view.component";
 
 
 const APP_ROUTES: Route[] = [
+  {path: '', component: SetListComponent},
   {path: 'setlist', component: SetListComponent},
   {path: 'composing', component: ComposingComponent},
   {path: 'printing', component: PrintViewComponent}
