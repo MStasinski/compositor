@@ -1,7 +1,7 @@
-
+@import '../../../variables';
 nav {
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: #4cb3ff;
   display: flex;
   justify-content: flex-end;
 }
@@ -9,7 +9,9 @@ nav {
 #buttons-box {
   display: flex;
   justify-content: flex-end;
-  background-color: #686ecb;
+}
+#logo {
+  margin: 0px 0px 0px 0px;
 }
 
 

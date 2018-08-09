@@ -1,0 +1,105 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Makra TeX-owo-PostScript-owe obsíugujÜce druk pejzaßowy,
+% lustrzane odbicie i co sië komu zamarzy w oparciu o DVIPS-owÜ
+% zmiennÜ bop-hook
+%   
+% BOP s. c. Gda§sk, ul. Tatrza§ska 6/1,    tel. 56-78-77
+%           Sopot, al. Niepodlegíoûci 606/610,
+%           tel. (+48 58) 51-32-14 do 16 w. 55
+%           fax  (+48 58) 51-40-53
+%   
+% HISTORIA:  
+% wersja 0.5 z piÜtku, 13 stycznia 1995 r. po neutralizacji aktywnego ciach-a
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Makra ußytkowe:
+%
+%   \papersize#1#2{... Ustalenie rozmiaru papieru. Poprawne wartoûci sÜ
+%                      sprawÜ kluczowÜ dla poprawnego dziaíania pozostaíych
+%                      makr. Parametry oznaczajÜ: #1 -- szerokoûç, 
+%                      #2 -- wysokoûç strony wyraßone w jednostkach TeX-owych.
+%                      W pakiecie BOP-HAX ustala sië domyûlny rozmiar A4.
+%
+%   \clearbophook{...  Inicjalizacja wartoûci zmiennej bop-hook. W zwykíych
+%                      warunkach ußytkownik nie ma potrzeby ußywania 
+%                      tego makra.
+%
+%   \mirror{...        Odbicie lustrzane stron dokumentu.
+%
+%   \landscape{...     Orientacja pejzaßowa stron. 
+%
+%   \hpfour{...        Neutralizacja bíëdu GhostScript-u (wer, 2.60)
+%                      pojegajÜcego na ignorowaniu pionowego przesuniëcia
+%                      (offset) zawartoûci strony w rozdzielczoûci 600 dpi.
+%
+%   \userbophook#1{... Moßliwoûç dopisywania wíasnych treûci do zmiennej
+%                      bop-hook.
+%
+% UWAGA:
+%   Makra \mirror oraz \hpfour powinny poprzedzaç \landscape
+%   w przypadku wykorzystywania ich w jednym dokumencie.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\edef\slashcatcode{\the\catcode`\/}
+\catcode`\/12
+%
+\newdimen\bigpoint \bigpoint 1bp
+\newdimen\paperwidth
+\newdimen\paperheight
+\newcount\paperwidthcount
+\newcount\paperheightcount
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Inicjalizacja zmiennej bop-hook
+%
+\def\clearbophook{%
+  \special{!userdict begin /bop-hook {} def end }}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Rozszerzanie definicji procedury PS-owej
+%
+\def\PSprocappend#1#2{% #1 -- literal, #2 -- treûç dopisywana
+  [#1 where {pop #1 load aload pop} if {#2} aload pop] cvx #1 exch def }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Rozmiar papieru
+%   Niezbëdne obliczenia: szerokoûç i wysokoûç papieru 
+%   wyraßone zostajÜ w jednostkach PS.
+%
+\def\papersize#1#2{%
+  \paperwidth #1 \divide\paperwidth by \bigpoint
+  \paperwidthcount\paperwidth
+  \paperheight #2 \divide\paperheight by \bigpoint
+  \paperheightcount\paperheight }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lustro
+%
+\def\mirror{%
+  \special{!userdict begin \PSprocappend {/bop-hook}
+    {[-1 0 0 1 \the\paperwidthcount\space 0] concat} end }}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pejzaß
+%
+\def\landscape{%
+  \special{!userdict begin \PSprocappend {/bop-hook}
+     {[0 -1 1 0 \the\paperwidthcount\space \the\paperheightcount\space sub
+     \the\paperheightcount] concat} end }}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Specjalny \special do eliminacji bíëdu GhostScript-a (wer. 2.60)
+% polegajÜcego na ignorowaniu pionowego offsetu w rozdzielczoûci 600 dpi
+%
+\def\hpfour{%
+  \special{!userdict begin \PSprocappend {/bop-hook}
+    {gsave 0.2 setlinewidth
+    10 \the\paperheightcount\space 1 add moveto 10 0 rlineto stroke
+    grestore
+    currentscreen 3 -1 roll pop 85 3 1 roll setscreen
+    } end }}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Wíasny bop-hook ußytkownika
+%
+\def\userbophook#1{%
+  \special{!userdict begin \PSprocappend {/bop-hook}{#1} end }}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Domyûlne rozmiary papieru okreûlajÜ format A4.
+%
+\papersize{210mm}{297mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\catcode`\/\slashcatcode
+%
+\endinput

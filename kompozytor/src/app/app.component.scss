@@ -1,6 +1,8 @@
-.main-view{
-  width: 50%;
-  height: 1000px;
-  margin:20px auto 10px auto;
-  background-color:#CFD1CB;
+@import '../variables';
+
+.main-view {
+  width: $app-width;
+  height: $app-height;
+  margin: 20px auto 10px auto;
+  background-color: $backgroud-grey-panel;
 }

@@ -1,0 +1,54 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage{amsmath}[2000/07/18] %% Displayed equations
+\usepackage{amssymb}[2002/01/22] %% and additional symbols
+\usepackage{unicode-math}
+\usepackage{pstricks-add}            %% pstricksy i ościenne pakiety. XeTeX sam znajduje kompatybilne
+\usepackage{pst-node}
+\usepackage{pst-plot}
+\usepackage{fancyhdr}            %% do zamiany nagłówków
+\usepackage{fontspec}            %% do fontów, patrz: tutorial
+\usepackage{polski}             %%polskie łamanie
+\usepackage{pgfpages}
+\usepackage{layout}
+
+%====================================================
+%         U S T A W I E N I A    S T R O N Y
+%====================================================
+\fancyhf{}                              %czyszczenie nagłówków i stopek
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\setlength{\paperwidth}{595pt}
+\setlength{\paperheight}{398pt}
+\setlength{\marginparsep}{0pt}
+\setlength{\marginparpush}{0pt}
+\setlength{\topmargin}{0in}
+\setlength{\hoffset}{-30pt}
+\setlength{\voffset}{-60pt}
+\setlength{\evensidemargin}{0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\leftmargin}{0in}
+\setlength{\marginparwidth}{0pt}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\footskip}{14pt}
+\setlength{\textwidth}{496.5pt}
+\setlength{\textheight}{360pt}
+\setlength{\headwidth}{\textwidth}
+\pgfpagesuselayout{2 on 1}[a4paper]
+
+\special{pdf:docinfo<</Title(Zestaw zadań)%
+/Keywords(PDF-1.5[[user-id]])>>}
+
+\fancyfoot[FL]{Wybór zadań: [[user-name]] {\color{white}[[user-id]]}}
+\fancyfoot[FR]{Copyright {\textcopyright} Gdańskie Wydawnictwo Oświatowe}
+
+\begin{document}
+\pagestyle{fancy}
+\vbadness=10000   %żeby log był‚ czystszy
+\hbadness=10000   %żeby log był‚ czystszy
+
+\input ../input/macros_[[compile-type]]   %tu siedzą makra nasze
+\skladfalse
+[[[outlet]]]
+\end{document}

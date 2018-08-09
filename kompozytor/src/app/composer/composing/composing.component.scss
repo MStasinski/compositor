@@ -1,0 +1,64 @@
+@import '../../../variables';
+
+#outerspace {
+  display: flex;
+  justify-content: center;
+
+}
+
+#left-panel {
+  background-color: #fefffb;
+  width: 42%;
+  min-height: 600px;
+  margin: 0px 5px 0px 10px;
+  transition: width 1s;
+ // box-shadow: 5px 5px #888888;
+}
+
+#right-panel {
+  background-color: #ffffff;
+  width: 58%;
+  min-height: 600px;
+  margin: 0px 10px 0px 5px;
+  transition: width 1s;
+  //box-shadow: 5px 5px #888888;
+}
+
+#choice-panel {
+  margin: 0px 10px 0px 15px;
+}
+
+.header {
+  background-color: #ECECEA;
+}
+
+.header-text-field {
+  padding: 16px;
+  font-family: $font-family;
+  font-size: 20px;
+  color: $primary-color;
+}
+
+#header-image {
+  margin-bottom: -6px;
+  z-index: 10;
+  background-color: #dddddd;
+  -webkit-box-shadow: 1px -3px 11px 0px rgba(117,117,117,0.8);
+  -moz-box-shadow: 1px -3px 11px 0px rgba(117,117,117,0.8);
+  box-shadow: 1px -3px 11px 0px rgba(117,117,117,0.8);
+}
+
+#controls {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+#app-questions-counter {
+  margin-left: 160px;
+  margin-top: 10px;
+}
+
+#app-pages-counter {
+  margin-left: 20px;
+  margin-top: 10px;
+}

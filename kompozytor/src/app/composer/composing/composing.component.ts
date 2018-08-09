@@ -1,25 +1,44 @@
-
 import {Component} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate
+} from "@angular/animations";
 
-export interface Pokemon {
-  value: string;
-  viewValue: string;
-}
-
-export interface PokemonGroup {
-  disabled?: boolean;
-  name: string;
-  pokemon: Pokemon[];
-}
 
 /** @title Select with option groups */
 @Component({
   selector: 'app-composing',
   templateUrl: './composing.component.html',
-  styleUrls: ['./composing.component.scss']
+  styleUrls: ['./composing.component.scss'],
+
+  animations: [
+    trigger('switch-panel-left', [
+      state('off', style({
+        width: '40%'
+      })),
+      state('on', style({
+        width: '50%'
+      })),
+      /*transition('off => on', [animate('2s', style({width: '50%'}))]),
+      transition('on => off', [animate('2s', style({width: '40%'}))])*/
+    ]),
+    trigger('switch-panel-right', [
+      state('off', style({
+        width: '60%'
+      })),
+      state('on', style({
+        width: '50%'
+      })),
+     /* transition('off => on', animate('1000ms 1s ease-in', style({width: '10%'}))),
+      transition('on => off', animate('1000ms 1s ease-out', style({width: '60%'})))*/
+    ])
+  ]
 })
 export class ComposingComponent {
+  state = 'off';
   states: string[] = [
     'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware',
     'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
@@ -29,4 +48,9 @@ export class ComposingComponent {
     'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
     'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
   ];
+
+  toggleSize() {
+    console.log("zmien rozmiar");
+    this.state = (this.state == "off") ? "on" : "off";
+  }
 }

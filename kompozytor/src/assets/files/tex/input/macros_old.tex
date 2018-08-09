@@ -1,0 +1,1066 @@
+%------- INPUT
+\input trans
+\input epsfx
+\input ../input/bop-hax
+\input map
+\input split
+
+%====================================================
+%                  F O N T Y
+%====================================================
+\defaultfontfeatures{Ligatures=TeX,Scale=.92}
+\setmainfont{Lucida Bright OT}
+\setsansfont{Lucida Sans OT}
+\setmonofont{Lucida Sans Typewriter OT}
+\setmathfont{Lucida Bright Math OT}
+\setmathfont[version=bold]{Lucida Bright Math OT Demibold}
+
+\newfontface\LucidaBlackletter{Lucida Blackletter OT}       %% a nuż się kiedyś przydadzą
+\newfontface\LucidaCalligraphy{Lucida Calligraphy OT}
+\newfontface\LucidaHandwriting{Lucida Handwriting OT}
+
+\makeatletter
+  \newcommand\espe{\@setfontsize\espe{11.5pt}{15}}
+  \newcommand\espemat{\@setfontsize\espemat{13pt}{12.5}}
+  \newcommand\gimbaza{\@setfontsize\gimbaza{10pt}{14}}
+  \newcommand\gimbazamat{\@setfontsize\gimbazamat{11.5pt}{11}}
+  \newcommand\trialheader{\@setfontsize\trialheader{14pt}{12}}
+  \newcommand\trialheaderT{\@setfontsize\trialheaderT{7pt}{7}}
+  \newcommand\trialheaderR{\@setfontsize\trialheaderR{10pt}{10}}
+  \newcommand\gimbazanorr{\@setfontsize\gimbazanorr{8pt}{10}}  %% dodałem, bo potrzebowałe mniejszych Ł.
+  \newcommand\pisankaG{\@setfontsize\gimbaza{12pt}{15.5}}
+\makeatother
+
+% czerwony tekst (wyróżnienie tekstu)
+\newcommand{\highlighted}[1]{{\color{red}#1}}
+
+\def\nor{}
+\def\norr{}   %ale to coś mi nie działa :)
+\let\nor\gimbaza
+\let\norr\gimbazanorr
+
+\newif \ifsklad
+  \skladtrue
+
+%------- Ułamki
+\makeatletter                       %przerabianie fraca od AMStex
+  \DeclareRobustCommand{\frac}{\new@ifnextchar[{\frfrac{}}{\frfrac{}[]}}
+  \def\g@ra{\raise.125em}
+  \def\rozp@rka{\vrule height.615em depth0pt width0pt}
+  \def\frfrac#1[#2]#3#4{\def\next@{#2}%
+    \ifx\next@\@empty \def\next@{\g@ra\hbox{$#1{#3\over\rozp@rka\relax#4}$}}%
+    \else \def\next@{\g@ra\hbox{$#1{#3\above#2\relax\rozp@rka\relax#4}$}}%
+    \fi
+    \next@}
+  \def\dfrac{\protect\frfrac\displaystyle[]}
+  \def\tfrac{\protect\frfrac\textstyle[]}
+\makeatother
+
+\def\jednostki#1#2{\frac{\mathrm{#1}}{\mathrm{#2}}}         % km na godzine itepe
+
+\catcode`\=\active
+\def \Imat
+  {\begingroup
+   \def{$\egroup\endgroup}%
+   \lower0.03em\hbox\bgroup\gimbazamat$%%%%%%%%%%%
+  }
+\let=\Imat%
+
+\catcode`\=\active
+\def \IImat
+  {\begingroup
+   \def{$\egroup\endgroup}%
+   \lower0.06em\hbox\bgroup\espemat$%%%%%%%%%%%
+  }
+\let=\IImat%
+
+%frac mały w obu, Frac duży w gimnazjum, FracII duży w SP
+\def\Frac #1#2{\bgroup \frac{#1}{#2} \egroup}
+\def\FracII #1#2{\bgroup \frac{#1}{#2} \egroup}
+
+%------- Rozmiary strony definiujemy na początku main.tex
+\topskip = 0mm
+
+\parindent=0cm
+\parskip0pt
+\hfuzz=1pt
+\thinmuskip=3mu
+\medmuskip=4mu
+\thickmuskip=5mu
+\renewcommand{\line}[1]{\hbox to\hsize{#1}}
+\def \v #1 {\vskip#1mm\relax}
+\def \h #1 {\hskip#1mm\relax}
+
+
+%------- county dimeny fontowe bzdety itepe
+\def\kompozytorFont[1#1pt]{%
+\ifcase #1\gimbaza%0
+      \or\espe%1
+      \else Błąd. Niepoprawny rozmiar czcionki.\fi%error
+}
+
+
+\newdimen\wysI\wysI=0pt         %tnp
+\newdimen\wysII\wysII=0pt       %tnp
+\newdimen\wysMAX\wysMAX=0pt     %tnp
+\newcount\Zad \Zad=1   %\z
+\newcount\Podpunkt \Podpunkt=97     %\pp
+\newcount\Przypis \Przypis=1       %\pr
+\newdimen\pindent \pindent=4.5mm    %\pp
+\newdimen\SzerOka  %\odp
+\newdimen\Szeroka  %\odp
+\newdimen\SPR      %\odp
+\newdimen\tmpa      %kratki
+\newdimen\temp      %podręczna
+\newif\ifsklad
+  \skladtrue
+\newdimen\kol       %wcinka
+\newdimen\szer      %wcinka
+\newdimen\dszer     %wcinka
+\newdimen\Wcinka    %wcinka
+\global\Wcinka\hsize%wcinka
+
+\def\NazwaEPSfont{\tt\tiny}
+
+%------- Kropeczki
+\def\dotfill{\xleaders\hbox to 3.219pt{\hss\tiny.\hss}\hfill}
+\def\Dotfill{\xleaders\hbox to 3.219pt{\hss\tiny.\hss}\hfill}
+\def\ddotfill#1{\xleaders\hbox to 3.219pt{\hss\lower#1\hbox{\tiny.}\hss}\hfill}
+\def\Kr#1{\hbox to #1cm{\Dotfill}}%
+
+\def\Krl#1{\kern0pt\lower.68mm\hbox{\Kr{#1}}}%1mm
+\def\Krd#1{\kern0pt\lower1.3mm\hbox{\Kr{#1}}}%1mm
+\def\Krdd#1{\kern0pt\lower1.6mm\hbox{\Kr{#1}}}%1mm
+\def\kr{\hbox{$\ldots$}}%
+
+\def\Kropky#1{\bgroup\hskip0mm\hbox to #1mm{\small
+\setlength{\unitlength}{1mm}
+\multido{\n=0+1}{#1}{%
+\put(\n,0){.}}
+\hss}\egroup}
+\def\kropkiON{\rput(0,0){\phantom{\DF{  }}}}
+
+\def\DF#1{%
+\setbox1=\hbox{#1}
+\tmpa=\hsize\advance\tmpa by -\wd1 \advance\tmpa by -.5em
+\line{\box1\hfill\lower.68mm\hbox to\tmpa{\Dotfill}}}
+
+\def\DFI#1{%
+\setbox1=\hbox{#1}
+\tmpa=\hsize\advance\tmpa by -\wd1 \advance\tmpa by -.5em
+\line{\box1\hfill\lower.68mm\hbox to\tmpa{\Dotfill}}}
+
+\def\DFII#1{%
+\setbox1=\hbox{#1}
+\tmpa=\hsize\advance\tmpa by -\wd1 \advance\tmpa by -.5em
+\line{\box1\hfill\lower.68mm\hbox to\tmpa{\Dotfill}}}
+
+\def\DFD#1{%
+\setbox1=\hbox{#1}
+\tmpa=\hsize\advance\tmpa by -\wd1 \advance\tmpa by -.5em
+\line{\box1\hfil\lower1.5mm\hbox to\tmpa{\Dotfill}}}
+
+\def\DFDD#1{%
+\setbox1=\hbox{#1}
+\tmpa=\hsize\advance\tmpa by -\wd1 \advance\tmpa by -.5em
+\line{\box1\hfil\lower2.5mm\hbox to\tmpa{\Dotfill}}}
+
+
+%------- Podmiana znaków matematycznych
+\XeTeXmathchardef\xleq = 1 0 "02A7D
+\XeTeXmathchardef\xgeq = 1 0 "02A7E
+\let\leq\xleq
+\let\geq\xgeq
+\let\le\xleq
+\let\ge\xgeq
+\XeTeXmathchardef\kat = 1 0 "02222
+\XeTeXmathchardef\permil = 1 0 "02030
+\def\promil{\hbox{\kern1pt$\permil$}}
+\XeTeXmathcode`\: = 1 0 "0003A
+\def\proc{\kern1pt\%}
+\def\Circ{\raise3pt\zscale{75}\hbox{$\circ$}}
+\def\CircII{\raise3pt\zscale{90}\hbox{$\circ$}}
+\catcode`\=\active
+\catcode`\=\active
+\gdef\POLSPACJA {\nobreak\hskip 1.55pt\relax}%
+\gdef\TWARDASPACJA {\nobreak\hskip 3.1pt\relax}%
+\let\POLSPACJA
+\let=\TWARDASPACJA
+
+%------- Wcinki i dwaokna
+
+\def \lwcinka #1 #2
+    {\nointerlineskip
+     \vskip1.8mm
+     \vglue-1.8mm
+%     \global \Podpunkt=97
+     \global \Wcinka=#1mm
+     \kol=6mm
+     \dszer=\hsize
+     \advance\dszer by -\Wcinka
+     \szer=\dszer
+     \advance\szer by -\kol
+     \def \c ##1{\hbox to#1mm{\hskip2\leftskip\hss ##1\hss}}
+     \def \cwc ##1{\hskip0pt \hbox to\szer{\hss ##1\hss}}
+     \rightline{\llap{\smash{\hbox{\vtop{\hsize\szer
+                \overfullrule=0mm
+                \vskip1.8mm
+                \rm #2}}}}}
+     \begingroup\rightskip\dszer
+    }
+
+\def \rwcinka #1 #2
+    {\nointerlineskip
+     \vskip1.8mm
+     \vglue-1.8mm
+%     \global\Podpunkt=97
+     \global\Wcinka=#1mm
+     \kol=6mm
+     \dszer=\hsize
+     \advance\dszer by -\Wcinka
+     \szer=\dszer
+     \advance\szer by -\kol
+     \def \c ##1{\hskip0mm \hbox to#1mm{\hfil ##1 \hfil}}
+     \def \cwc ##1{\noindent\hskip0pt \hbox to\szer{\hfil ##1 \hfil}}
+     \rlap{\smash{\hbox{\vtop{\hsize\szer
+           \vskip1.8mm
+           \rm #2}}}}
+     \begingroup\leftskip\dszer
+     }
+
+\def \wcinkaEND
+    {\par
+     \endgroup
+     \global\Wcinka\hsize
+    }
+
+\long\def\dwaokna #1 #2 #3 #4 #5{\noindent\hbox to#1mm{%
+    \vtop{\hsize=#2mm #4}\hfil\vtop{\hsize=#3mm #5}}}
+
+\long\def\trzyokna #1 #2 #3 #4 #5 #6{\noindent\hbox to 161mm{%
+    \vtop{\hsize=#1mm #4}\hfil\vtop{\hsize=#2mm #5}\hfil\vtop{\hsize=#3mm #6}\hfil}}
+
+
+\long\def\Trzyokna #1 #2 #3 #4 #5 #6{\noindent\hbox to 161mm{%
+    \vtop{\hsize=#1mm #4}\hfill\vtop{\hsize=#2mm #5}\hfill\vtop{\hsize=#3mm #6}}}
+
+\def\Metka #1 {%
+\h0
+\setbox0\hbox{#1}
+\setbox1\hbox{\psframebox[linecolor=black, linewidth=.35mm, fillstyle=none, framesep=2mm, framearc=.4]{\hbox to\wd0{#1}}}
+\temp=\wd1
+\divide\temp by 2
+\hbox{%
+\vtop{\hsize=\wd1%
+\rput[b](\temp,-\dp1){\psframe[linecolor=black, linewidth=.15mm](-.25,.025)(.25,-.4975)}\hfil\copy1\hfil%
+\vskip5mm}\hss}
+}
+
+\newcmykcolor{yllwV}{0 0 .005 0}
+%------- format zadań, odpowiedzi, podpunktów i inne makra pozycjonujące
+%\long\def\zad#1\ezad{\vskip3mm\global\Podpunkt=97{\hskip5mm\vtop{\hsize=165mm\vrule height12pt depth0mm width0pt#1}}}%
+
+\def\placeholder #1 #2 #3 {\zsavepos{#1}{[#3]}%
+\typeout{DATA:placeholder:#1:\zposx{#1}:\zposy{#1}}%
+%  \DimX=\zposx{#1}sp\relax \DimX=0.0347\DimX
+%  \zposx{#1}sp\relax - \zposy{#1}sp\relax
+%  \strip@pt{\zposx{#1}sp\relax}
+}
+
+\long\def\t1#1\t2{
+  %\zsavepos{#2}{#1}
+  % \zposx{#2}sp\relax
+  %\vskip3mm\global\Podpunkt=97\psframebox[linecolor=tocut,linewidth=.25pt,framesep=1mm]{\hskip5mm\vtop{\hsize=165mm\vrule height12pt depth0mm width0pt#1}}
+}
+\long\def\zad#1\ezad{\vskip0pt\global\Podpunkt=97\hskip5mm\vtop{\hsize=165mm\vrule height0pt depth0mm width0pt#1}}%
+\long\def\ODP#1\ezad{\vskip3mm\global\Podpunkt=97\psframebox[linecolor=blue,linewidth=.5pt,framesep=1mm]{\hskip5mm\vtop{\hsize=165mm\vrule height12pt depth0mm width0pt#1}}}%
+\long\def\zadII#1\ezad{\global\Podpunkt=97\psframebox[linecolor=yllwV,linewidth=.5pt,framesep=1mm]{\hskip5mm\vtop{\hsize=165mm\vrule height12pt depth0mm width0pt#1}\hskip0mm}}%
+
+\def\z #1 #2 %
+{\Podpunkt=97
+\bgroup\bf
+%\vskip2pt
+#2
+\egroup}
+
+\def\ez{\global\advance \Zad by 1
+%\vfil\eject
+}
+
+\def \ppr
+    {\leavevmode%
+     \przypis%
+     \global \advance \Przypis by 1\relax
+     \ignorespaces}
+
+\def\przypis {\smash{\raise.2\baselineskip\hbox to 0.4em{\scriptsize\the\Przypis\hss}}}
+
+\def \ppp
+    {\leavevmode%
+     \podpunkt%
+     \global \advance \Podpunkt by 1\relax
+     \ignorespaces}
+
+\def\podpunkt {\hbox to \pindent{\char\Podpunkt)\hss}}
+
+\def \pp
+    {\ifvmode\vskip.5mm \ppp\else\ppp\fi}
+
+\def \pr
+    {\ifvmode\vskip.5mm \ppr\hskip1em\else\ppr\fi}
+
+\def \st #1 #2 {\vrule width0pt height #1mm depth #2mm}
+\def \stpt #1 #2 {\vrule width0pt height #1pt depth #2pt}
+
+\def\ph#1{\phantom{#1}}
+
+\def\doc{{\parfillskip0pt\endgraf}}
+
+\def\hh #1 #2% -#1: od prawej, +#1: od lewej, -#2: od zera do #2 indent, +#2: po #2 linijkach indent
+{\hangindent#1cm
+\hangafter#2
+}
+
+%------- Kratki, \Frame i kółka
+\def\koleczko #1%
+    {\setbox0=\hbox{%
+    \pscircle[linewidth=.3pt](.22,.12){.22}
+    {\hbox to 4.4mm{\hss#1\hss}}}%
+    \box0\hskip.2mm }
+
+
+
+\def\kolkogim{}
+\def\kolkosp{}
+
+\def\pkolko{%
+    \pscircle[linewidth=0pt,linecolor=Raster,fillstyle=solid,fillcolor=Raster](-.3,.15){.2}}
+
+\def\szkratka{\hbox to 4mm{\psframe[linewidth=.25mm,linecolor=Raster,fillstyle=solid,fillcolor=Raster](0,0)(.4,.4)\hfil}}
+
+\def\mkolko #1%
+    {\setbox0=\hbox{%
+    \pscircle[linewidth=.3pt](.2,.135){.25}
+    {\hbox to 4mm{\hss#1\hss}}}%
+    \box0\hskip.73mm }
+
+\let\kolkogim\koleczko
+\let\kolkosp\mkolko
+
+\long\def\Frame #1#2#3#4{%
+ \vbox{\hrule height#2 \hbox{\vrule width#2
+ \hskip#1 \vbox{\vskip#1{}\hsize#3#4\vskip#1}\hskip#1
+ \vrule width#2} \hrule height#2}}
+
+\newcmykcolor{colBudek}{0 0 0 .35}
+\def\Budka#1{\hbox{\psframe[linewidth=.18mm,framearc=.4, linecolor=colBudek](0,-.1)(.#1,.4)\vrule height4.2mm width0mm depth1.2mm\hskip#1mm}}
+\def\bud#1{\hbox{\psframe[linewidth=.18mm,framearc=.4, linecolor=colBudek](0,-.15)(#1,.35)\vrule height3.2mm width0mm depth1.2mm\hskip#1cm}}
+
+\def\graframka#1{\psframebox[framearc=.4,framesep=2mm]{\vrule height10.5pt depth3.5pt width0pt\hbox to 15mm{\hss#1\hss}}}
+\def\kleks{\lower4.5pt\hbox{\XeTeXpdffile 'pdf/kleks.pdf' }}
+\def\kratka{\zscale{100}\Frame{0pt}{.3pt}{4mm}{\vbox to 5.2mm{\hsize=4mm\hfil\vfil}}}
+\def\kratkaSz{\zscale{100}\Frame{0pt}{.3pt}{4mm}{\vbox to 5.2mm{\hsize=6mm\hfil\vfil}}}
+\def\krat{\lower2mm\hbox{\Frame{0pt}{.3pt}{4mm}{\vbox to 5.5mm{\hsize=4mm\hfil\vfil}}}}
+\def\kratkw{\lower1mm\hbox{\Frame{0pt}{.3pt}{4mm}{\vbox to 4mm{\hsize=4mm\hfil\vfil}}}\kern1.5mm\ignorespaces} % kratka do makr NIE RUSZAC!!!
+\def\nkratkw{\noindent\lower1mm\hbox{\Frame{0pt}{.3pt}{4mm}{\vbox to 4mm{\hsize=4mm\hfil\vfil}}}\kern1.5mm\ignorespaces} % kratka do makr NIE RUSZAC!!!
+\def\kratsc{\kern.3pt\lower.5mm\hbox{\Frame{0pt}{.3pt}{2.5mm}{\vbox to 2.5mm{\hsize=2.5mm\hfil\vfil}}}}
+\def\kratt{\lower1.2mm\hbox{\Frame{0pt}{.3pt}{8mm}{\vbox to 4.5mm{\hsize=4.5mm\hfil\vfil}}}}
+\def\kratul{\lower2mm\hbox{\Frame{0pt}{.3pt}{4mm}{\vbox to 8.5mm{\hsize=5.5mm\hfil\vfil}}}}
+\def\kratKW{\lower1mm\hbox{\Frame{0pt}{.3pt}{4mm}{\vbox to 4mm{\hsize=4mm\hfil\vfil}}}}
+\def\kratKWTAB{\psframe[linecolor=black, linewidth=.3pt](-2mm,-.7mm)(2mm,3.5mm)}
+\def\KR{\lower2mm\hbox{\Frame{0pt}{.3pt}{7mm}{\vbox to 6mm{\hsize=7mm\hfil\vfil}}}}
+\def\KRR{\lower1.25mm\hbox{\Frame{0pt}{.3pt}{9mm}{\vbox to 4.5mm{\hsize=9mm\hfil\vfil}}}}           % 2 cyfry luzem SP
+\def\frejm{\lower3pt\hbox{\Frame{0pt}{0.3pt}{4mm}{\vbox to 12pt{\hsize=10mm\hfil\vfil}}}} %221 janowicz 15
+\def\arrow#1#2#3{\raise3pt\hbox to 12mm{\rput(.5,.25){$#1{#2}^{#3}$}\psline{->}(1,0)}} %214 janowicz 8
+\def\strzalkado#1{\raise3pt\hbox to 14mm{\rput[B](.7,.25){#1}\psline{->}(.1,0)(1.3,0)}}
+\def\Kwadiiv{\lower1.5mm\hbox{\Frame{2.5mm}{.3pt}{6mm}{}}}  %214 janowicz 8
+\def\mkw{\vbox{\hrule %
+               \hbox{\vrule \vrule depth1mm height1mm width0mm \hskip2mm \vrule}%
+               \hrule}}
+
+\def\kwadracik{\noindent\lower.75mm\vbox{\hrule %
+               \hbox{\vrule \vrule depth3mm height2mm width0mm \hskip4mm \vrule}%
+               \hrule}}
+
+\def\Kwadracik{\noindent\lower.75mm\vbox{\hrule %
+               \hbox{\vrule \vrule depth3mm height2mm width0mm \hskip6mm \vrule}%
+               \hrule}}
+
+
+%------- makra do zadań: odp, pf, tn, tnp
+\def\forAga{{\sf X\ }}
+
+
+\long\def\odp #1 #2 #3 #4
+     {{\nobreak\overfullrule=0pt
+      \vskip2mm
+      \nobreak
+      \mathsurround=0pt
+      \setbox0\hbox{\nkratkw{\rm A.}~#1}
+      \setbox1\hbox{\nkratkw{\rm B.}~#2}
+      \setbox2\hbox{\nkratkw{\rm C.}~#3}
+      \setbox3\hbox{\nkratkw{\rm D.}~#4}
+      \setbox4\hbox{#1}
+      \setbox5\hbox{#3}
+      \ht4=0mm\ht5=0mm\wd5=0mm%
+      \ifnum\wd0>\wd1\relax\SzerOka=\wd0\else\SzerOka=\wd1\relax\fi
+      \ifnum\wd2>\wd3\relax\Szeroka=\wd2\else\Szeroka=\wd3\relax\fi
+\SPR=\wd1\advance\SPR by\wd2\advance\SPR by\wd3\advance\SPR by\wd4\advance\SPR by30mm
+\ifdim\SPR<\hsize
+\hskip0pt \hbox to\hsize{%
+      {\nkratkw\rm {A.}}~#1\hskip9.3mm plus.5mm minus5mm
+      {\nkratkw\rm {B.}}~#2\hskip9.3mm plus.5mm minus5mm
+      {\nkratkw\rm {C.}}~#3\hskip9.3mm plus.5mm minus5mm
+      {\nkratkw\rm {D.}}~#4\hfil\hss}\vskip0pt
+\else
+\SPR=\SzerOka\advance\SPR by \Szeroka \advance\SPR by 15mm
+\ifdim\SPR<\hsize
+      \hskip0pt \hbox to\hsize{\leftskip=0mm%
+              \vbox{\hsize=\SzerOka
+      \line{{\nkratkw\rm A.}~\box4\hfil}%
+      \vskip1mm
+      \line{{\nkratkw\rm B.}~\hbox{#2}\hfil}}\hfil%hskip20mm plus.5mm minus1mm
+                  \vbox{\hsize=\Szeroka
+      \line{{\nkratkw\rm C.}~\box5\hfil}%
+      \vskip1mm
+      \line{{\nkratkw\rm D.}~\hbox{#4}\hfil}%
+               }\hss}%
+\else
+\ifdim\SzerOka>\Szeroka \SPR=\SzerOka\else\SPR=\Szeroka\fi
+\hangindent10.5mm\hangafter1
+\nkratkw{\rm A.}~#1
+\vskip1mm
+\hangindent10.5mm\hangafter1
+\nkratkw{\rm B.}~#2
+\vskip1mm
+\hangindent10.5mm\hangafter1
+\nkratkw{\rm C.}~#3
+\vskip1mm
+\hangindent10.5mm\hangafter1
+\nkratkw{\rm D.}~#4
+\vskip1mm
+\fi\fi
+}}
+
+\newcount\pfCount
+
+\def\pf #1 #2 #3 #4 {
+\nobreak\overfullrule=0pt
+      \vskip0mm
+      \nobreak
+      \mathsurround=0pt
+      \wysI=0pt
+      \wysMAX=0pt
+      \pfCount=0
+      \setbox0\vbox{\hsize=352pt #1}                          %pudełkowanie
+      \setbox1\vbox{\hsize=352pt #2}
+      \setbox2\vbox{\hsize=352pt #3}
+      \setbox3\vbox{\hsize=352pt #4}
+      \ifnum\ht2>\ht0\relax\ht0=\ht2\relax\fi   %spr wielkości par 1/3, 2/4
+      \ifnum\ht3>\ht1\relax\ht1=\ht3\relax\fi
+      \ifnum\ht0>\ht1\relax\wysMAX=\ht0\relax
+            \else\wysMAX=\ht1\relax\fi %spr najwyższego pudełka
+      \ifnum\wd0>0\relax\pfCount=0\relax\fi
+      \ifnum\wd1>0\relax\pfCount=1\relax\fi
+      \ifnum\wd2>0\relax\pfCount=2\relax\fi
+      \ifnum\wd3>0\relax\pfCount=3\relax\fi
+      \wysI=0.5\baselineskip
+      \wysII=\baselineskip\advance\wysII by \wysMAX
+      \multirput(0pt,-\wysII)(0,-\wysII){\pfCount}{\psline[linewidth=.425pt](0,0)(469.5pt,0)}%
+      \ifnum\wd0>0\relax\rput[tl](6pt,-\wysI){\copy0}%
+      \rput[t](434.5pt,-\wysI){{\bf P}}%
+      \rput[t](457.5pt,-\wysI){{\bf F}}\relax\fi
+      \ifnum\wd1>0\relax\advance\wysI by \wysMAX\advance\wysI by 1\baselineskip
+      \rput[tl](6pt,-\wysI){\copy1}%
+      \rput[t](434.5pt,-\wysI){{\bf P}}%
+      \rput[t](457.5pt,-\wysI){{\bf F}}\relax\fi
+      \ifnum\wd2>0\relax\advance\wysI by \wysMAX\advance\wysI by 1\baselineskip
+      \rput[tl](6pt,-\wysI){\copy2}%
+      \rput[t](434.5pt,-\wysI){{\bf P}}%
+      \rput[t](457.5pt,-\wysI){{\bf F}}\relax\fi
+      \ifnum\wd3>0\relax\advance\wysI by \wysMAX\advance\wysI by 1\baselineskip
+      \rput[tl](6pt,-\wysI){\copy3}%
+      \rput[t](434.5pt,-\wysI){{\bf P}}%
+      \rput[t](457.5pt,-\wysI){{\bf F}}\relax\fi
+      \advance\wysI by \wysMAX\advance\wysI by 0.5\baselineskip
+      \rput[B](423pt,0pt){\psline[linewidth=.425pt](0,0)(0,-\wysI)}
+      \rput[B](446pt,0pt){\psline[linewidth=.425pt](0,0)(0,-\wysI)}
+      \psframe[linewidth=.425pt](0,0pt)(469.5pt,-\wysI)%
+      \vskip\wysI}
+
+\def\tn #1 #2 #3 #4 {
+\nobreak\overfullrule=0pt
+      \vskip0mm
+      \nobreak
+      \mathsurround=0pt
+      \wysI=0pt
+      \wysMAX=0pt
+      \pfCount=0
+      \setbox0\vbox{\hsize=352pt #1}                          %pudełkowanie
+      \setbox1\vbox{\hsize=352pt #2}
+      \setbox2\vbox{\hsize=352pt #3}
+      \setbox3\vbox{\hsize=352pt #4}
+      \ifnum\ht2>\ht0\relax\ht0=\ht2\relax\fi   %spr wielkości par 1/3, 2/4
+      \ifnum\ht3>\ht1\relax\ht1=\ht3\relax\fi
+      \ifnum\ht0>\ht1\relax\wysMAX=\ht0\relax
+            \else\wysMAX=\ht1\relax\fi %spr najwyższego pudełka
+      \ifnum\wd0>0\relax\pfCount=0\relax\fi
+      \ifnum\wd1>0\relax\pfCount=1\relax\fi
+      \ifnum\wd2>0\relax\pfCount=2\relax\fi
+      \ifnum\wd3>0\relax\pfCount=3\relax\fi
+      \wysI=0.5\baselineskip
+      \wysII=\baselineskip\advance\wysII by \wysMAX
+      \multirput(0pt,-\wysII)(0,-\wysII){\pfCount}{\psline[linewidth=.425pt](0,0)(469.5pt,0)}%
+      \ifnum\wd0>0\relax\rput[tl](6pt,-\wysI){\copy0}%
+      \rput[t](434.5pt,-\wysI){{\bf T}}%
+      \rput[t](457.5pt,-\wysI){{\bf N}}\relax\fi
+      \ifnum\wd1>0\relax\advance\wysI by \wysMAX\advance\wysI by 1\baselineskip
+      \rput[tl](6pt,-\wysI){\copy1}%
+      \rput[t](434.5pt,-\wysI){{\bf T}}%
+      \rput[t](457.5pt,-\wysI){{\bf N}}\relax\fi
+      \ifnum\wd2>0\relax\advance\wysI by \wysMAX\advance\wysI by 1\baselineskip
+      \rput[tl](6pt,-\wysI){\copy2}%
+      \rput[t](434.5pt,-\wysI){{\bf T}}%
+      \rput[t](457.5pt,-\wysI){{\bf N}}\relax\fi
+      \ifnum\wd3>0\relax\advance\wysI by \wysMAX\advance\wysI by 1\baselineskip
+      \rput[tl](6pt,-\wysI){\copy3}%
+      \rput[t](434.5pt,-\wysI){{\bf T}}%
+      \rput[t](457.5pt,-\wysI){{\bf N}}\relax\fi
+      \advance\wysI by \wysMAX\advance\wysI by 0.5\baselineskip
+      \rput[B](423pt,0pt){\psline[linewidth=.425pt](0,0)(0,-\wysI)}
+      \rput[B](446pt,0pt){\psline[linewidth=.425pt](0,0)(0,-\wysI)}
+      \psframe[linewidth=.425pt](0,0pt)(469.5pt,-\wysI)%
+      \vskip\wysI}
+
+%\long\def\pf #1 #2 #3 #4 #5 #6                  %makro do zadań prawda/fałsz w kompozytorze dla gimnazjum. Minimum 2 zdania, maksimum 6.
+%     {{\nobreak\overfullrule=0pt                %wstępne skopiowane z \odp
+%      \vskip2mm
+%      \nobreak
+%      \mathsurround=0pt
+%      \setbox0\hbox{#1}                         %pudełkowanie
+%      \setbox1\hbox{#2}
+%      \setbox2\hbox{#3}
+%      \setbox3\hbox{#4}
+%      \setbox4\hbox{#5}
+%      \setbox5\hbox{#6}
+%      \setbox6\hbox to 164pt{\hss\kratkw prawda \hskip5pt \kratkw fałsz}
+%      \setbox7\vtop{\hsize=164pt\hskip2cm\kratkw prawda \hskip5pt \kratkw fałsz}
+%      \ifnum\wd3>\wd0\relax\wd0=\wd3\relax\fi   %spr wielkośći par 1/4, 2/5, 3/6
+%      \ifnum\wd4>\wd1\relax\wd1=\wd4\relax\fi
+%      \ifnum\wd5>\wd2\relax\wd2=\wd5\relax\fi
+%      \ifnum\wd0>\wd1\relax\SzerOka=\wd0\relax
+%            \else\SzerOka=\wd1\relax\fi %spr największego pudełka z trójki 123
+%      \ifnum\wd2>\SzerOka\relax\SzerOka=\wd2\relax\fi
+%      \SPR=\hsize\advance\SPR by -164pt         %granica to \hsize pomniejszony o pudełko prawda/fałsz i skipy
+%      \ifdim\SzerOka<\SPR                       %jak się mieści to hboxy
+%            \vskip.4\baselineskip\hskip0pt\hbox to \SzerOka{#1\hss}\copy6
+%            \vskip.4\baselineskip\hskip0pt\hbox to \SzerOka{#2\hss}\copy6
+%            \ifnum\wd2>0\relax\vskip.4\baselineskip\hskip0pt\hbox to \SzerOka{#3\hss}\copy6\relax\fi %nie wypisuj zerowych 3456
+%            \ifnum\wd3>0\relax\vskip.4\baselineskip\hskip0pt\hbox to \SzerOka{#4\hss}\copy6\relax\fi
+%            \ifnum\wd4>0\relax\vskip.4\baselineskip\hskip0pt\hbox to \SzerOka{#5\hss}\copy6\relax\fi
+%            \ifnum\wd5>0\relax\vskip.4\baselineskip\hskip0pt\hbox to \SzerOka{#6\hss}\copy6\relax\fi
+%            \vskip0pt
+%        \else \advance\SPR by -.1pt                %jak nie to vtopy
+%            \vskip.4\baselineskip\hskip0pt\vtop{\hsize=\SPR #1}\copy7
+%            \vskip.4\baselineskip\hskip0pt\vtop{\hsize=\SPR #2}\copy7
+%            \ifnum\wd2>0\relax\vskip.4\baselineskip\hskip0pt\vtop{\hsize=\SPR #3}\copy7\relax\fi
+%            \ifnum\wd3>0\relax\vskip.4\baselineskip\hskip0pt\vtop{\hsize=\SPR #4}\copy7\relax\fi
+%            \ifnum\wd4>0\relax\vskip.4\baselineskip\hskip0pt\vtop{\hsize=\SPR #5}\copy7\relax\fi
+%            \ifnum\wd5>0\relax\vskip.4\baselineskip\hskip0pt\vtop{\hsize=\SPR #6}\copy7\relax\fi
+%            \vskip0pt
+%      \fi}}
+%
+%\long\def\tn #1 #2 #3 #4 #5 #6                  %makro do zadań tak/nie w kompozytorze dla gimnazjum. Minimum 3 zdania, maksimum 6. Różni się od \pf tylko pudełkami z prawej strony
+%     {{\nobreak\overfullrule=0pt                %wstępne skopiowane z \odp
+%      \vskip2mm
+%      \nobreak
+%      \mathsurround=0pt
+%      \setbox0\hbox{#1}                         %pudełkowanie
+%      \setbox1\hbox{#2}
+%      \setbox2\hbox{#3}
+%      \setbox3\hbox{#4}
+%      \setbox4\hbox{#5}
+%      \setbox5\hbox{#6}
+%      \setbox6\hbox to 144pt{\hskip2cm\kratkw TAK\hskip5mm\kratkw NIE}
+%      \setbox7\vtop{\hsize=144pt\hskip2cm\kratkw TAK\hskip5mm\kratkw NIE}
+%      \ifnum\wd3>\wd0\relax\wd0=\wd3\relax\fi   %spr wielkośći par 1/4, 2/5, 3/6
+%      \ifnum\wd4>\wd1\relax\wd1=\wd4\relax\fi
+%      \ifnum\wd5>\wd2\relax\wd2=\wd5\relax\fi
+%      \ifnum\wd0>\wd1\relax\SzerOka=\wd0\relax\else\SzerOka=\wd1\relax\fi %spr największego pudełka z trójki 123
+%      \ifnum\wd2>\SzerOka\relax\SzerOka=\wd2\relax\fi
+%      \SPR=\hsize\advance\SPR by -144pt         %granica to \hsize pomniejszony o pudełko tak/nie
+%      \ifdim\SzerOka<\SPR                       %jak się mieści to hboxy
+%            \vskip.4\baselineskip\hskip0pt\hbox to \SzerOka{#1\hss}\copy6
+%            \vskip.4\baselineskip\hskip0pt\hbox to \SzerOka{#2\hss}\copy6
+%            \ifnum\wd2>0\relax\vskip.4\baselineskip\hskip0pt\hbox to \SzerOka{#3\hss}\copy6\relax\fi %nie wypisuj zerowych 3456
+%            \ifnum\wd3>0\relax\vskip.4\baselineskip\hskip0pt\hbox to \SzerOka{#4\hss}\copy6\relax\fi
+%            \ifnum\wd4>0\relax\vskip.4\baselineskip\hskip0pt\hbox to \SzerOka{#5\hss}\copy6\relax\fi
+%            \ifnum\wd5>0\relax\vskip.4\baselineskip\hskip0pt\hbox to \SzerOka{#6\hss}\copy6\relax\fi
+%            \vskip0pt
+%      \else \advance\SPR by -0.1pt                %jak nie to vtopy
+%            \vskip.4\baselineskip\hskip0pt\vtop{\hsize=\SPR #1}\copy7
+%            \vskip.4\baselineskip\hskip0pt\vtop{\hsize=\SPR #2}\copy7
+%            \ifnum\wd2>0\relax\vskip.4\baselineskip\hskip0pt\vtop{\hsize=\SPR #3}\copy7\relax\fi
+%            \ifnum\wd3>0\relax\vskip.4\baselineskip\hskip0pt\vtop{\hsize=\SPR #4}\copy7\relax\fi
+%            \ifnum\wd4>0\relax\vskip.4\baselineskip\hskip0pt\vtop{\hsize=\SPR #5}\copy7\relax\fi
+%            \ifnum\wd5>0\relax\vskip.4\baselineskip\hskip0pt\vtop{\hsize=\SPR #6}\copy7\relax\fi
+%            \vskip0pt
+%      \fi}}
+
+\def\tnp #1 #2 #3 {
+\nobreak\overfullrule=0pt
+      \vskip0mm
+      \nobreak
+      \mathsurround=0pt
+      \wysI=0pt
+      \wysMAX=0pt
+      \setbox0\vbox{\hsize=352pt #1}                          %pudełkowanie
+      \setbox1\vbox{\hsize=352pt #2}
+      \setbox2\vbox{\hsize=352pt #3}
+      \ifnum\ht0>\ht1\relax\wysMAX=\ht0\relax
+            \else\wysMAX=\ht1\relax\fi %spr najwyższego pudełka
+      \ifnum\ht2>\wysMAX\relax\wysMAX=\ht2\relax\fi
+      \wysI=0.5\baselineskip
+      \wysII=\baselineskip\advance\wysII by \wysMAX
+      \multirput(80pt,-\wysII)(0,-\wysII){2}{\psline[linewidth=.425pt](0,0)(389.5pt,0)}%
+      \rput[tl](110pt,-\wysI){\copy0}
+      \rput[t](92pt,-\wysI){{\bf A.}}
+      \advance\wysI by \wysMAX\advance\wysI by 1\baselineskip
+      \rput[tl](110pt,-\wysI){\copy1}
+      \rput[t](92pt,-\wysI){{\bf B.}}
+      \advance\wysI by \wysMAX\advance\wysI by 1\baselineskip
+      \rput[tl](110pt,-\wysI){\copy2}
+      \rput[t](92pt,-\wysI){{\bf C.}}
+      \advance\wysI by \wysMAX\advance\wysI by 0.5\baselineskip
+      \psframe[linewidth=.425pt](0,0pt)(469.5pt,-\wysI)%
+      \rput[B](24pt,0pt){\psline[linewidth=.425pt](0,0)(0,-\wysI)}
+      \rput[B](80pt,0pt){\psline[linewidth=.425pt](0,0)(0,-\wysI)}
+      \rput[B](104pt,0pt){\psline[linewidth=.425pt](0,0)(0,-\wysI)}
+      \wysII=\wysI\divide\wysII by 2
+      \rput[B](0pt,-\wysII){\psline[linewidth=.425pt](0,0)(24pt,0pt)}%
+      \advance\wysII by 4pt
+      \rput[B](52pt,-\wysII){ponieważ}
+      \advance\wysII by -4pt\divide\wysII by 2\advance\wysII by 4pt
+      \rput[B](12pt,-\wysII){{\bf T}}
+      \advance\wysII by -4pt\multiply\wysII by 3\advance\wysII by 4pt
+      \rput[B](12pt,-\wysII){{\bf N}}
+      \vskip\wysI}
+
+%------- działania pisemne
+
+
+\newmuskip\defaultmuskip \defaultmuskip=6mu
+\def\fifo #1{\ifx\ofif#1\ofif\fi\process#1\fifo}
+\def\ofif #1\fifo{\fi}
+
+\def\slupek#1#2#3#4% [+/-] x y wynik
+   {\vtop{\def\process ##1{\hbox to4.7mm{\hfil ##1\hfil}}%
+      \def\mhrulefill{\leaders\hrule height.3mm\hfill}
+      \normalbaselines
+      \ialign{\strut\hfil$##$&&\hfil$##$\hfil\crcr
+              \strut\crcr\noalign{\vskip-\baselineskip}
+                &\fifo#2\ofif\crcr\noalign{\vskip-.4mm}
+              \hbox to4.7mm{\hfil$#1$\hfil}&\fifo#3\ofif\crcr\crcr\noalign{\vskip-4.05mm}
+              \multispan2\mhrulefill\cr
+                &\fifo#4\ofif\crcr
+              \strut\crcr\noalign{\vskip-1\baselineskip}}}}%
+
+\def\slupekII#1#2#3% [+/-] nad pod
+   {\vtop{\def\process ##1{\hbox to4.7mm{\hfil ##1\hfil}}%
+      \def\mhrulefill{\leaders\hrule height.3mm\hfill}
+      \normalbaselines
+      \ialign{\strut\hfil$##$&&\hfil$##$\hfil\crcr
+              \hbox to4.7mm{\hfil$#1$\hfil}&\fifo#2\ofif\crcr\crcr\noalign{\vskip-4.05mm}
+              \multispan2\mhrulefill\cr
+                &\fifo#3\ofif\crcr
+              \strut\crcr\noalign{\vskip-\baselineskip}}}}%
+
+%------- działania z luką
+
+\def\w#1{\leavevmode\kern0pt\raise4.7mm\hbox{$#1$}}
+\def\dod{\vbox{\hsize1.5cm\hbox to\hsize{\h1 \dotfill\h1 }\v-1 \vskip-.8mm\centerline{{\scriptsize dodatnia}}}}
+\def\uj{\vbox{\hsize1.5cm\hbox to\hsize{\h1 \dotfill\h1 }\v-1 \vskip-.8mm\centerline{{\scriptsize ujemna}}}}
+\def\dodk{\vbox{\hsize1.5cm\hbox to\hsize{\h1 \dotfill\h1 }\v-1 \vskip-.8mm\centerline{{\scriptsize dodatnia}}}}
+\def\ujk{\vbox{\hsize1.5cm\hbox to\hsize{\h1 \dotfill\h1 }\v-1 \vskip-.8mm\centerline{{\scriptsize ujemna}}}}
+\def\ze{\vbox{\hsize1.5cm\hbox to\hsize{\h1 \dotfill\h1 }\v-1 \vskip-.8mm\centerline{{\scriptsize zero}}}}
+\def\podpis #1 #2 {\vbox{\hsize=#1\noindent\lower0pt\hbox to\hsize{\h1 \dotfill\h1 } \noindent\raise7pt\centerline{{\scriptsize #2}}\vskip-18pt}}
+
+\def\mlhr#1{\multispan#1\hrulefill}
+
+
+%------- Rysunki
+
+
+\def \NazwaEPS #1{%
+     \ifsklad\rput[tl](-.7,0){{\NazwaEPSfont [#1]}}\else\fi}
+
+\def \Lpic #1 #2 #3%
+    {\vskip#1mm
+        \leftline {\NazwaEPS {#3}\XeTeXpdffile 'pdf/#3.pdf' }
+     \vskip#2mm
+    }
+%-------------------
+\def \Rpic #1 #2 #3%
+    {\vskip#1mm
+        \rightline {\NazwaEPS {#3}\XeTeXpdffile 'pdf/#3.pdf'\hskip-.5mm }
+     \vskip#2mm
+    }
+%-------------------
+\def \Cpic #1 #2 #3%
+    {\vskip#1mm
+        \centerline {\XeTeXpdffile '#3' }
+     \vskip#2mm
+    }
+
+\def \Lspic #1 #2 #3 #4%
+    {\vskip#1mm
+        \leftline {\NazwaEPS {#3}\zscale{#4}\vbox{\XeTeXpdffile 'pdf/#3.pdf' } }
+     \vskip#2mm
+    }
+%-------------------
+\def \Rspic #1 #2 #3 #4%
+    {\vskip#1mm
+        \rightline {\NazwaEPS {#3}\zscale{#4}\vbox{\XeTeXpdffile 'pdf/#3.pdf' }\hskip-.5mm }
+     \vskip#2mm
+    }
+%-------------------
+\def \Cspic #1 #2 #3 #4%
+    {\vskip#1mm
+        \centerline {\NazwaEPS {#3}\zscale{#4}\vbox{\XeTeXpdffile 'pdf/#3.pdf' } }
+     \vskip#2mm
+    }
+
+\def\RysK#1{\v3 \NazwaEPS{#1}\leftline{\h-.75 \XeTeXpdffile 'pdf/#1.pdf' \hss}\v3 }
+
+\def \lpic #1 #2 #3%
+    {\rput[tl](#1,#2){\leftline{\NazwaEPS {#3}\XeTeXpdffile 'pdf/#3.pdf' }}}
+
+\def \lspic #1 #2 #3 #4%
+    {\rput[tl](#1,#2){\leftline{\NazwaEPS {#3}\zscale{#4}\hbox{\XeTeXpdffile 'pdf/#3.pdf' }}}}
+
+\def \cpic #1 #2 #3%
+    {\rput[tl](#1,#2){\centerline{\NazwaEPS {#3}\XeTeXpdffile 'pdf/#3.pdf' }}}
+
+\def \cspic #1 #2 #3 #4%
+    {\rput[tl](#1,#2){\centerline{\NazwaEPS {#3}\zscale{#4}\hbox{\XeTeXpdffile 'pdf/#3.pdf' }}}}
+
+\def \rspic #1 #2 #3 #4%
+    {\rput[tl](#1,#2){\rightline{\NazwaEPS {#3}\zscale{#4}\hbox{\XeTeXpdffile 'pdf/#3.pdf' }}}}
+
+\def \rpic #1 #2 #3%
+    {\rput[tl](#1,#2){\rightline{\NazwaEPS {#3}\XeTeXpdffile 'pdf/#3.pdf' }}}
+
+
+%------- \naklejka
+%---------------------------
+
+\newcmykcolor{Raster}{0 0 0 .3}
+%-------------------------------------Shadow--------------------------------------
+% Parametry komendy BaseBlok
+% #1 -- odci‘cie cienia od g˘ry (prawy r˘g) -- dimen
+% #2 -- grubožŤ cienia z boku (prawego)     -- dimen
+% #3 -- odci‘cie cienia z do’u (lewy r˘g)   -- dimen
+% #4 -- grubožŤ cienia z do’u               -- dimen
+% #5 -- tekst w ramce                       -- text
+\long\def\BaseBlok#1#2#3#4#5{%
+ \vbox{\setbox0=\hbox{#5} \offinterlineskip
+ \hbox{\copy0\dimen0=\ht0 \advance\dimen0 by -#1
+       {\Raster \vrule height\dimen0 width #2}}
+ \hbox{\hskip#3\dimen0=\wd0
+   \advance\dimen0 by -#3 \advance\dimen0 by #2
+      {\Raster \vrule height #4 width\dimen0}} }}
+
+\long\def\Shadow#1{\BaseBlok{1.5mm}{1mm}{1.5mm}{1mm}{#1}}
+
+\long \def \SFrame #1 #2%
+   {\Shadow{%
+    \Frame{3.5mm}{0.08mm}{#1cm}{#2}%
+    }}
+
+% naklejka z ramk† TeX-ow†
+\long \def \naklejka #1 #2 #3 #4 #5%
+    {\setbox0 \vbox {\leftskip=0pt
+                      \SFrame #3 {\vglue-1mm\relax%
+                      #5%
+                     }}
+     \rput[br](#1,#2){\rotate{#4}\hbox{\box0}}
+    }
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------- Funkcje czasu i godziny
+
+
+%----------------------------------
+\newcount\hours
+\newcount\minutes
+\def\oktime{% format `hh:mm'
+\hours=\time \divide \hours by 60 %
+\minutes=-\hours \multiply \minutes by 60 \advance \minutes by \time
+\ifnum\hours>9 \the\hours \else 0\the\hours \fi %
+:%
+\ifnum\minutes>9 \the\minutes \else 0\the\minutes \fi}
+%----------------------------------
+\def\monthnazwa{%
+\ifcase \month%
+\or stycznia\or lutego\or marca\or kwietnia\or maja\or czerwca\or lipca%
+\or sierpnia\or września\or października\or listopada\or grudnia%
+\fi}%
+
+\newcount\licznik
+\licznik=0
+\def\kreska{\ifodd\licznik\vrule height1mm depth0mm width.4pt\rput[Bl](.2,0){\tiny\the\licznik}\newline\relax\else\vrule height1mm depth0mm width0pt\newline\relax\fi\advance\licznik by 1}
+
+%--------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------- Makro tabelka i cała reszta
+
+
+
+\newcount \dPodpunkt \dPodpunkt=65
+\newdimen \dpindent \dpindent=5mm
+\newdimen \hboxa \dpindent=33.5mm
+
+\newcount\Nrboxa\Nrboxa=1
+\newcount\Lboxow\Lboxow=0
+\newcount\Nrkolumn\Nrkolumn=0
+\newcount\Lkolumn\Lkolumn=0
+\newcount\Nrwiersz\Nrwiersz=1
+\newcount\Lwiersz\Lwiersz=0
+\newcount\iloczyn\iloczyn=0
+
+\newcount\Podstep\Podstep=0
+\newdimen \Wys
+\newdimen\Lbazowa\Lbazowa=1.5mm   %standartowy odstep pomiedzy wierszami tabeli
+\newdimen\roznica\roznica=0mm
+\newdimen\Wcinka \Wcinka=165mm
+\newdimen\Podstep\Podstep=0mm
+
+\gdef\pB #1 {{\global\setbox\Nrboxa\hbox to\hboxa{#1\hss}
+              \global\advance\Nrboxa by1
+             }}
+
+\gdef\pBB #1 {{\global\setbox\Nrboxa\hbox to\hboxa{\h4.5 #1\hss}
+              \global\advance\Nrboxa by1
+             }}
+
+\gdef\PB #1 {{\global\setbox\Nrboxa\hbox to33.5mm{#1\hss}
+              \global\advance\Nrboxa by1
+             }}
+
+
+\gdef\p #1 {{\global\setbox\Nrboxa\hbox to\hboxa{\podpunkt#1\hss}
+             \global\advance\Podpunkt by1
+             \global\advance\Nrboxa by1
+            }}
+
+\def \tabelka #1 #2 #3
+    {\global\Podpunkt=97
+     \global\Nrboxa=0
+     \ifnum#1=2\global\hboxa=67mm\fi%
+     \ifnum#1=3\global\hboxa=43mm\fi%
+     \ifnum#1=4\global\hboxa=33.5mm\fi%
+     \global\Lkolumn=#1
+     \global\Lwiersz=0
+     \global\Nrkolumn=1          %kolumny numerowane są od jedynki
+     \global\Nrwiersz=0          %wiersze od 0
+     \global\Lbazowa=1.5mm
+     \global\advance\Lbazowa by#2mm
+     \global\Podstep=10mm
+     \global\advance\Podstep by #3mm
+     }
+
+
+% makro przewiduje od 1 do 6 kolumn i maksymalnie 11 wierszy!
+\def \tabelkaEND {{\vskip1.5mm
+                  \global\Lboxow=\Nrboxa
+%-----------------------------------
+                  \global\iloczyn\Nrwiersz
+                  \loop\ifnum\iloczyn<\Lboxow
+                    \global\advance\Lwiersz by1
+                    \global\iloczyn=\Lwiersz
+                    \global\multiply\iloczyn by\Lkolumn
+                  \repeat
+%------------------------------------
+\hfuzz30pt
+% Ustalamy nr boxa w tabeli.
+                  \def\UNB{{%
+                      \global\Nrboxa=\Nrkolumn
+                      \global\multiply\Nrboxa by\Lwiersz
+                      \global\advance\Nrboxa by\Nrwiersz
+                      \global\advance\Nrboxa by-\Lwiersz
+                      \ifnum\Nrkolumn<\Lkolumn
+                         \global\advance\Nrkolumn by 1
+                      \else
+                         \global\Nrkolumn=1
+                         \global\advance\Nrwiersz by 1
+                      \fi
+                      }}
+%------------------------------------
+                  \global\iloczyn=11
+                  \global\advance\iloczyn by -\Lwiersz
+                  \h0 \setbox0\vbox{%
+                  \ifcase\Lkolumn%
+                  \or
+                     \halign {\tabskip=\Podstep%10mm plus30mm minus3mm
+                     \UNB\box\Nrboxa##\tabskip=0mm\cr
+                       \cr\noalign{\vskip\Lbazowa}
+                       \cr\noalign{\vskip\Lbazowa}
+                       \cr\noalign{\vskip\Lbazowa}
+                       \cr\noalign{\vskip\Lbazowa}
+                       \cr\noalign{\vskip\Lbazowa}
+                       \cr\noalign{\vskip\Lbazowa}
+                       \cr\noalign{\vskip\Lbazowa}
+                       \cr\noalign{\vskip\Lbazowa}
+                       \cr\noalign{\vskip\Lbazowa}
+                       \cr\noalign{\vskip\Lbazowa}
+                       \cr}%
+                  \or
+                     \halign {\tabskip=\Podstep%10mm plus30mm minus3mm
+                     \UNB\box\Nrboxa##&\UNB\box\Nrboxa##\tabskip0mm\cr
+                       &\cr\noalign{\vskip\Lbazowa}
+                       &\cr\noalign{\vskip\Lbazowa}
+                       &\cr\noalign{\vskip\Lbazowa}
+                       &\cr\noalign{\vskip\Lbazowa}
+                       &\cr\noalign{\vskip\Lbazowa}
+                       &\cr\noalign{\vskip\Lbazowa}
+                       &\cr\noalign{\vskip\Lbazowa}
+                       &\cr\noalign{\vskip\Lbazowa}
+                       &\cr\noalign{\vskip\Lbazowa}
+                       &\cr\noalign{\vskip\Lbazowa}
+                       &\cr}%
+                  \or
+                     \halign {\tabskip=\Podstep%10mm plus30mm minus3mm
+                     \UNB\box\Nrboxa##&\UNB\box\Nrboxa##&\UNB\box\Nrboxa##\tabskip0mm\cr
+                       &&\cr\noalign{\vskip\Lbazowa}
+                       &&\cr\noalign{\vskip\Lbazowa}
+                       &&\cr\noalign{\vskip\Lbazowa}
+                       &&\cr\noalign{\vskip\Lbazowa}
+                       &&\cr\noalign{\vskip\Lbazowa}
+                       &&\cr\noalign{\vskip\Lbazowa}
+                       &&\cr\noalign{\vskip\Lbazowa}
+                       &&\cr\noalign{\vskip\Lbazowa}
+                       &&\cr\noalign{\vskip\Lbazowa}
+                       &&\cr\noalign{\vskip\Lbazowa}
+                       &&\cr}%
+                  \or
+                     \halign {\tabskip=\Podstep%10mm plus30mm minus3mm
+                     \UNB\box\Nrboxa##&\UNB\box\Nrboxa##&%
+                     \UNB\box\Nrboxa##&\UNB\box\Nrboxa##\tabskip0mm\cr
+                       &&&\cr\noalign{\vskip\Lbazowa}
+                       &&&\cr\noalign{\vskip\Lbazowa}
+                       &&&\cr\noalign{\vskip\Lbazowa}
+                       &&&\cr\noalign{\vskip\Lbazowa}
+                       &&&\cr\noalign{\vskip\Lbazowa}
+                       &&&\cr\noalign{\vskip\Lbazowa}
+                       &&&\cr\noalign{\vskip\Lbazowa}
+                       &&&\cr\noalign{\vskip\Lbazowa}
+                       &&&\cr\noalign{\vskip\Lbazowa}
+                       &&&\cr\noalign{\vskip\Lbazowa}
+                       &&&\cr}%
+                  \or
+                     \halign {\tabskip=\Podstep%10mm plus30mm minus3mm
+                     \UNB\box\Nrboxa##&\UNB\box\Nrboxa##&\UNB\box\Nrboxa##&%
+                     \UNB\box\Nrboxa##&\UNB\box\Nrboxa##\tabskip0mm\cr
+                       &&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&\cr}%
+                  \or
+                     \halign {\tabskip=\Podstep%10mm plus30mm minus3mm
+                     \UNB\box\Nrboxa##&\UNB\box\Nrboxa##&%
+                     \UNB\box\Nrboxa##&\UNB\box\Nrboxa##&%
+                     \UNB\box\Nrboxa##&\UNB\box\Nrboxa##\tabskip0mm\cr
+                       &&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&\cr}%
+                  \or
+                     \halign {\tabskip=\Podstep%10mm plus30mm minus3mm
+                     \UNB\box\Nrboxa##&\UNB\box\Nrboxa##&\UNB\box\Nrboxa##&%
+                     \UNB\box\Nrboxa##&\UNB\box\Nrboxa##&%
+                     \UNB\box\Nrboxa##&\UNB\box\Nrboxa##\tabskip0mm\cr
+                       &&&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&&\cr\noalign{\vskip\Lbazowa}
+                       &&&&&&\cr}%
+                  \else\fi}%
+                  \Wys = \ht 0%
+                  \global\roznica=\baselineskip
+                  \multiply\roznica by\iloczyn
+                  \advance\Wys by-\roznica
+                  \global\roznica=\Lbazowa
+                  \multiply\roznica by\iloczyn
+                  \advance\Wys by-\roznica
+                  \global\ht0=\Wys
+                  \nobreak
+                  \box0%
+                  \vskip.5mm
+                  }}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                   Język polski testowe
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\jtekstinfo #1 #2 {%
+\centerline{{\large #1} \hskip2em {\bf\large #2}}
+\vskip1\baselineskip
+}
+
+
+
+\def\tekstinfo #1 #2 #3 #4 #5 {%
+%\rput[tl](\hsize,\baselineskip){\h5 \vbox{\scriptsize #3min\par #4 słów\par #5 zad.}}%
+%
+\centerline{{\large #1} \hskip2em {\bf\large #2}}
+\vskip1\baselineskip
+}
+
+\def\abstrakt #1 #2 {%
+\rput[tl](\hsize,\baselineskip){\h5 \vbox{\scriptsize #1\par #2}}%
+}
+
+
+\long\def\przypisy#1\eprzypisy{\bgroup\small\vskip1\baselineskip\global\Przypis=1 #1\egroup}
+
+\definecolor{tocut}{RGB}{254,254,254}
+\long\def\tekst#1\etekst{\vskip1mm\global\Podpunkt=97\psframebox[linecolor=tocut,linewidth=.25pt,framesep=1mm]{\hskip5mm\vtop{\hsize=165mm\vrule height12pt depth0mm width0pt#1}}}%
+
+
+
+\long\def\wiazka#1\ewiazka{\bgroup\vskip-1\baselineskip\rput[tl](\hsize,\baselineskip){\h5 \vbox{\scriptsize początek\par wiązki}}#1%
+\vskip-1\baselineskip\rput[tl](\hsize,\baselineskip){\h5 \vbox{\scriptsize koniec\par wiązki}}\egroup}
+
+
+
+
+
+
+
+\endinput
