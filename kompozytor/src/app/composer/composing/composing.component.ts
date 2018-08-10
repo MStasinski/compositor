@@ -5,7 +5,7 @@ import {
   style,
   transition,
   animate
-} from "@angular/animations";
+} from '@angular/animations';
 
 
 /** @title Select with option groups */
@@ -16,29 +16,55 @@ import {
 
   animations: [
     trigger('switch-panel-left', [
-      state('off', style({
-        width: '40%'
+      state('inactive', style({
+        width: '40%',
       })),
-      state('on', style({
+      state('active', style({
+        width: '50%',
+      })),
+
+      transition('inactive => active', animate(500)),
+      transition('active => inactive', animate(500))
+    ]),
+
+    trigger('image-header', [
+      state('inactive', style({
+        width: '100%',
+      })),
+      state('active', style({
+        width: '100%',
+      })),
+
+    ]),
+    trigger('switch-button', [
+      state('inactive', style({
+        marginLeft: '376px',
+      })),
+      state('active', style({
+        marginLeft: '476px',
+      })),
+
+      transition('inactive => active', animate(500)),
+      transition('active => inactive', animate(500))
+    ]),
+
+    trigger('switch-panel-right', [
+      state('active', style({
         width: '50%'
       })),
-      /*transition('off => on', [animate('2s', style({width: '50%'}))]),
-      transition('on => off', [animate('2s', style({width: '40%'}))])*/
-    ]),
-    trigger('switch-panel-right', [
-      state('off', style({
+      state('inactive', style({
         width: '60%'
       })),
-      state('on', style({
-        width: '50%'
-      })),
-     /* transition('off => on', animate('1000ms 1s ease-in', style({width: '10%'}))),
-      transition('on => off', animate('1000ms 1s ease-out', style({width: '60%'})))*/
+
+      transition('inactive => active', animate(500)),
+      transition('active => inactive', animate(500))
     ])
   ]
 })
 export class ComposingComponent {
-  state = 'off';
+  state = 'inactive';
+  positionSwitchButton = {left: '0', top: '-52px'};
+
   states: string[] = [
     'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware',
     'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
@@ -50,7 +76,10 @@ export class ComposingComponent {
   ];
 
   toggleSize() {
-    console.log("zmien rozmiar");
-    this.state = (this.state == "off") ? "on" : "off";
+    this.state = this.state === 'active' ? 'inactive' : 'active';
+    console.log('zmien rozmiar');
+    let topParam = '-52px';
+    this.state === 'inactive' ? topParam = '-52px' : topParam = '-104px'
+    this.positionSwitchButton = {left: '0', top: topParam};
   }
 }

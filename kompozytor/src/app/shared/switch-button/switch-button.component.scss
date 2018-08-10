@@ -1,8 +1,13 @@
 #switch {
-  z-index: 200;
-  margin-left: 390px;
-  margin-top: 10px;
-  width: 40px;
-  height: 40px;
+  position: relative;
+  background-color: #e74c3c;
+}
+
+#image {
   position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 0px;
+  background-color: #e74c3c;
+  background: url('../../../assets/img/layout/button_switch.png') 0 -52px;
 }
