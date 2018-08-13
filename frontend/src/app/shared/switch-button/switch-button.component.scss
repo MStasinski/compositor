@@ -1,0 +1,13 @@
+#switch {
+  position: relative;
+  background-color: #e74c3c;
+}
+
+#image {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 0px;
+  background-color: #e74c3c;
+  background: url('../../../assets/img/layout/button_switch.png') 0 -52px;
+}

@@ -1,0 +1,54 @@
+<app-switch-button id="switch-but" appSwitchButton [position]="positionSwitchButton" [@switch-button]="state"
+                   (click)="toggleSize()"></app-switch-button>
+<div id="outerspace">
+  <div id="left-panel" [@switch-panel-left]="state">
+    <div class="header">
+      <div class="header-text-field">Biblioteka Zadań</div>
+      <div id="choice-panel">
+        <div>
+          <mat-form-field>
+            <mat-select placeholder="Dział">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-select placeholder="Temat">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="ngx-dnd-container" ngxDroppable="example">
+      <div class="ngx-dnd-item" ngxDraggable>Item 1a</div>
+      <div class="ngx-dnd-item" ngxDraggable>Item 2a</div>
+      <div class="ngx-dnd-item" ngxDraggable>Item 3a</div>
+    </div>
+  </div>
+
+  <div id="right-panel" [@switch-panel-right]="state">
+    <div class="header">
+
+      <div id="controls">
+        <div class="header-text-field">Twoj zestaw zadań</div>
+        <div id="icons">
+          <app-questions-counter id="app-questions-counter"></app-questions-counter>
+          <app-pages-counter id="app-pages-counter"></app-pages-counter>
+        </div>
+      </div>
+
+      <img [@image-header]="state" id="header-image" src="../../../assets/files/base/headers/9.clear.png">
+
+    </div>
+    <div class="ngx-dnd-container" ngxDroppable="example">
+      <div class="ngx-dnd-item" ngxDraggable>Item 1b</div>
+      <div class="ngx-dnd-item" ngxDraggable>Item 2b</div>
+      <div class="ngx-dnd-item" ngxDraggable>Item 3b</div>
+    </div>
+  </div>
+</div>

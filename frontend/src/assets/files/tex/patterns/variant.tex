@@ -1,0 +1,36 @@
+\documentclass[tikz,margin=5pt]{standalone}
+%\documentclass[draft10pt]{article}
+\usepackage{tikz}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}[2000/07/18] %% Displayed equations
+\usepackage{amssymb}[2002/01/22] %% and additional symbols
+\usepackage{unicode-math}
+\usepackage{pstricks-add}            %% pstricksy i ościenne pakiety. XeTeX sam znajduje kompatybilne
+\usepackage{pst-node}
+\usepackage{pst-plot}
+\usepackage{fancyhdr}            %% do zamiany nagłówków
+\usepackage{fontspec}            %% do fontów, patrz: tutorial
+\usepackage{polski}             %%polskie łamanie
+
+\usepackage{xcolor}
+
+\setlength{\paperwidth}{595pt}
+\setlength{\textwidth}{[[text-width]]pt}
+
+\setlength{\evensidemargin}{0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\marginparwidth}{0pt}
+\setlength{\headwidth}{\textwidth}
+
+
+\begin{document}
+\input ../input/macros_[[compile-type]]
+\skladfalse
+%\begin{preview}
+\vbadness=10000   %żeby log był‚ czystszy
+\hbadness=10000   %żeby log był‚ czystszy
+
+[[[outlet]]]
+
+%\end{preview}
+\end{document}

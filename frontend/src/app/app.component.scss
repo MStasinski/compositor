@@ -1,0 +1,8 @@
+@import '../variables';
+
+.main-view {
+  width: $app-width;
+  height: $app-height;
+  margin: 20px auto 10px auto;
+  background-color: $backgroud-grey-panel;
+}

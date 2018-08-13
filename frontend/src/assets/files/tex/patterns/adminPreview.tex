@@ -1,0 +1,49 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage{amsmath}[2000/07/18] %% Displayed equations
+\usepackage{amssymb}[2002/01/22] %% and additional symbols
+\usepackage{unicode-math}
+\usepackage{pstricks-add}            %% pstricksy i ościenne pakiety. XeTeX sam znajduje kompatybilne
+\usepackage{pst-node}
+\usepackage{pst-plot}
+\usepackage{fancyhdr}            %% do zamiany nagłówków
+\usepackage{fontspec}            %% do fontów, patrz: tutorial
+\usepackage{polski}             %%polskie łamanie
+\usepackage{layout}
+
+%====================================================
+%         U S T A W I E N I A    S T R O N Y
+%====================================================
+\fancyhf{}                              %czyszczenie nagłówków i stopek
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\setlength{\paperwidth}{595pt}
+\setlength{\paperheight}{842pt}
+\setlength{\topmargin}{0in}
+\setlength{\hoffset}{[[h-offset]]pt}
+\setlength{\voffset}{-48pt}
+\setlength{\evensidemargin}{0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\marginparwidth}{0pt}
+\setlength{\marginparsep}{0pt}
+\setlength{\headheight}{0pt}
+\setlength{\footskip}{14pt}
+\setlength{\headsep}{0in}
+\setlength{\textwidth}{[[text-width]]pt}
+\setlength{\textheight}{790pt}
+\setlength{\headwidth}{\textwidth}
+
+%\pagestyle{fancy}           %%
+\pagestyle{empty}
+
+\begin{document}
+\vbadness=10000   %żeby log był‚ czystszy
+\hbadness=10000   %żeby log był‚ czystszy
+
+\input ../input/macros_[[compile-type]]   %tu siedzą makra nasze
+%\fancyhead[R]{\nor {\bf [[group-name]]} \ s. \thepage\hskip3mm \oktime\hskip3mm \the\day.\the\month.\the\year\vskip5mm}
+%\setcounter{page}{1}
+\skladtrue
+
+[[[outlet]]]
+\end{document}
