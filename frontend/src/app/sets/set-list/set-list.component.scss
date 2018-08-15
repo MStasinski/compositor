@@ -1,25 +1,44 @@
-#outerspace {
-  display: flex;
-  justify-content: center;
-
+@import '../../../variables';
+#outerspace{
 }
-
-#workspace {
+mat-table  {
+  width: 100%;
+}
+#white-board {
   width: 600px;
-  height: 800px;
-  margin:20px auto 10px auto;
-  background-color: #ffffff;
+  justify-content: left;
+  margin: 30px auto 10px auto;
+  #header {
+    font-family:$font-family;
+    padding: 15px;
+    width: 300px;
+    height: 10px;
+    margin: 0px auto 0px 0px;
+    background-color: #ffffff;;
+  }
+
+  #workspace {
+    width: 600px;
+    height: 700px;
+    margin: 0px auto 10px auto;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: scroll
+  }
+}
+
+
+
+
+#image-box {
+  background-color: #59daff;
+  padding: 10px;
 
 }
-#image-box {
- /* display: flex;
-  height: 800px;
-  justify-content: center;
-  background-color: #59daff;*/
+
+#image {
+  margin: 20px 20px 20px 20px;
 }
-#image{
-  top:45%;
-  justify-content: center;
-  position: absolute;
-  background-color: #e74c3c;
-}
+

@@ -11,6 +11,19 @@ const typeDefs = [`
         url: String
         voteCount: Int
     }
+    type Set {
+        id:Int!
+        questionsList:[Question]
+    }
+   
+    type Question {
+        id: String
+        url: String
+    } 
+    type Section {
+        id: String
+        theme: [Theme]
+    }
     type Query {
         allCourses(searchTerm: String): [Course]
         course(id: String!): Course

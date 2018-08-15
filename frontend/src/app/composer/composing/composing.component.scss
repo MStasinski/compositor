@@ -1,11 +1,20 @@
 @import '../../../variables';
-
-#outerspace {
-  display: flex;
-  justify-content: center;
-
+.ng-container{
+  overflow: scroll;
+  height: 600px;
 }
+#outerspace {
+   display: flex;
+   justify-content: center;
+ }
 
+.draggable-item{
+  background-color: #ffffff;
+  height: 60px;
+  border-style: solid;
+  border-width:1px;
+  border-color: black;
+}
 #left-panel {
   background-color: #fefffb;
   width: 42%;
