@@ -8,6 +8,15 @@ export type Course = {
   voteCount: number;
 }
 
+export type Question = {
+  id: string,
+  section: string,
+  theme: string,
+  url: string
+}
+
 export type Query = {
   allCourses: Course[];
+  questionById: Question
+  questionBySectionAndTheme: Question[]
 }

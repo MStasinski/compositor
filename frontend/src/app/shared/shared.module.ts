@@ -6,6 +6,7 @@ import {QuestionsCounterComponent} from './questions-counter/questions-counter.c
 import {PagesCounterComponent} from './pages-counter/pages-counter.component';
 import {SwitchButtonComponent} from './switch-button/switch-button.component';
 import { SwitchButtonDirective } from './switch-button.directive';
+import { QuestionComponent } from './question/question.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { SwitchButtonDirective } from './switch-button.directive';
     PagesCounterComponent,
     SwitchButtonComponent,
     SwitchButtonDirective,
+    QuestionComponent,
   ],
 })
 export class SharedModule {

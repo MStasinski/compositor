@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import courseModel from './models/course';
+import questionModel from './models/question';
 
 var coursesData = [
     {
@@ -46,6 +47,14 @@ const resolvers = {
                 return course.id === id;
             })[0];*/
             return courseModel.findOne({id: id});
+        },
+
+        questionById: (root, {id}) => {
+            return questionModel.findOne({id: id});
+        },
+
+        questionBySectionAndTheme: (root, {section, theme}) => {
+            return questionModel.find({section: section, theme: theme});
         }
     },
     Mutation: {
@@ -55,7 +64,7 @@ const resolvers = {
             })[0];
             course.voteCount++;
             return course;*/
-            return courseModel.findOneAndUpdate({id: id}, { $inc: {"voteCount": 1}}, { returnNewDocument: true });
+            return courseModel.findOneAndUpdate({id: id}, {$inc: {"voteCount": 1}}, {returnNewDocument: true});
         },
         downvote: (root, {id}) => {
             /*const course = coursesData.filter(course => {
@@ -63,11 +72,27 @@ const resolvers = {
             })[0];
             course.voteCount--;
             return course;*/
-            return courseModel.findOneAndUpdate({id: id}, { $inc: {"voteCount": -1}}, { returnNewDocument: true });
+            return courseModel.findOneAndUpdate({id: id}, {$inc: {"voteCount": -1}}, {returnNewDocument: true});
         },
         addCourse: (root, {title, author, description, topic, url}) => {
-            const course = new courseModel({title: title, author: author, description: description, topic: topic, url: url});
+            const course = new courseModel({
+                title: title,
+                author: author,
+                description: description,
+                topic: topic,
+                url: url
+            });
             return course.save();
+        },
+
+        addQuestion: (root, {id, section, theme, url}) => {
+            const question = new questionModel({
+                id: id,
+                section: section,
+                theme: theme,
+                url: url
+            });
+            return question.save();
         }
     }
 }
