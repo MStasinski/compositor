@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import {Course} from '../services/types';
-import {CourseService} from '../services/course.service';
+import {Course} from '../../services/types';
+import {CourseService} from '../../services/course.service';
 
 
 @Component({

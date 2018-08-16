@@ -24,21 +24,29 @@
       </div>
     </div>
 
-    <!--   <div class="ngx-dnd-container" ngxDroppable="example">
-         <div class="ngx-dnd-item" ngxDraggable>Item 1a</div>
+       <div class="ngx-dnd-container" ngxDroppable="example">
+
+         <div *ngFor="let question of questions | async">
+           <div class="ngx-dnd-item" ngxDraggable>
+             <img src="../../../assets/question/section{{question.section}}/theme{{question.theme}}/{{question.url}}">
+           </div>
+         </div>
+
+
+        <!-- <div class="ngx-dnd-item" ngxDraggable>Item 1a</div>
          <div class="ngx-dnd-item" ngxDraggable>Item 2a</div>
-         <div class="ngx-dnd-item" ngxDraggable>Item 3a</div>
-       </div>-->
-    <div class="ng-container">
+         <div class="ngx-dnd-item" ngxDraggable>Item 3a</div>-->
+       </div>
+   <!-- <div class="ng-container">
       <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getChildPayload1"
                             (drop)="onDrop('items1', $event)">
         <smooth-dnd-draggable *ngFor="let item of items1">
           <div class="draggable-item">
-            {{item.data}}
+            <img src="../../../assets/question/section{{item.section}}/theme{{item.theme}}/{{item.url}}">
           </div>
         </smooth-dnd-draggable>
       </smooth-dnd-container>
-    </div>
+    </div>-->
   </div>
 
 
@@ -56,21 +64,21 @@
       <img [@image-header]="state" id="header-image" src="../../../assets/files/base/headers/9.clear.png">
 
     </div>
-    <!--  <div class="ngx-dnd-container" ngxDroppable="example">
-        <div class="ngx-dnd-item" ngxDraggable>Item 1b</div>
+      <div class="ngx-dnd-container" ngxDroppable="example">
+       <!-- <div class="ngx-dnd-item" ngxDraggable>Item 1b</div>
         <div class="ngx-dnd-item" ngxDraggable>Item 2b</div>
-        <div class="ngx-dnd-item" ngxDraggable>Item 3b</div>
-      </div>-->
-    <div class="ng-container">
-      <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getChildPayload2"
-                            (drop)="onDrop('items2', $event)">
+        <div class="ngx-dnd-item" ngxDraggable>Item 3b</div>-->
+      </div>
+    <!--<div class="ng-container">
+      <smooth-dnd-container class="smooth-dnd-container" [groupName]="'1'" [getChildPayload]="getChildPayload2" (drop)="onDrop('items2', $event)">
         <smooth-dnd-draggable *ngFor="let item of items2">
           <div class="draggable-item">
-            {{item.data}}
+            <img src="../../../assets/question/section{{item.section}}/theme{{item.theme}}/{{item.url}}">
           </div>
         </smooth-dnd-draggable>
       </smooth-dnd-container>
-    </div>
+    </div>-->
+
   </div>
 </div>
 

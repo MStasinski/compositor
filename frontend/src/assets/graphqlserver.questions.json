@@ -3,7 +3,7 @@
     "id" : "0", 
     "section" : "0", 
     "theme" : "0", 
-    "url" : "question/section0/theme1/10000.answer.svg", 
+    "url" : "10000.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -11,7 +11,7 @@
     "id" : "1", 
     "section" : "0", 
     "theme" : "0", 
-    "url" : "question/section0/theme1/10001.answer.svg", 
+    "url" : "10001.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -19,7 +19,7 @@
     "id" : "2", 
     "section" : "0", 
     "theme" : "0", 
-    "url" : "question/section0/theme1/10002.answer.svg", 
+    "url" : "10002.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -27,7 +27,7 @@
     "id" : "3", 
     "section" : "0", 
     "theme" : "0", 
-    "url" : "question/section0/theme1/10003.answer.svg", 
+    "url" : "10003.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -35,7 +35,7 @@
     "id" : "4", 
     "section" : "0", 
     "theme" : "0", 
-    "url" : "question/section0/theme1/10004.answer.svg", 
+    "url" : "10004.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -43,7 +43,7 @@
     "id" : "5", 
     "section" : "0", 
     "theme" : "0", 
-    "url" : "question/section0/theme1/10005.answer.svg", 
+    "url" : "10005.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -51,7 +51,7 @@
     "id" : "6", 
     "section" : "0", 
     "theme" : "0", 
-    "url" : "question/section0/theme1/10006.answer.svg", 
+    "url" : "10006.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -59,7 +59,7 @@
     "id" : "7", 
     "section" : "0", 
     "theme" : "0", 
-    "url" : "question/section0/theme1/10007.answer.svg", 
+    "url" : "10007.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -67,7 +67,7 @@
     "id" : "8", 
     "section" : "0", 
     "theme" : "0", 
-    "url" : "question/section0/theme1/10008.answer.svg", 
+    "url" : "10008.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -75,7 +75,7 @@
     "id" : "9", 
     "section" : "0", 
     "theme" : "0", 
-    "url" : "question/section0/theme1/10009.answer.svg", 
+    "url" : "10009.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -83,7 +83,7 @@
     "id" : "10", 
     "section" : "0", 
     "theme" : "1", 
-    "url" : "question/section0/theme1/10010.answer.svg", 
+    "url" : "10010.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -91,7 +91,7 @@
     "id" : "11", 
     "section" : "0", 
     "theme" : "1", 
-    "url" : "question/section0/theme1/10011.answer.svg", 
+    "url" : "10011.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -99,7 +99,7 @@
     "id" : "12", 
     "section" : "0", 
     "theme" : "1", 
-    "url" : "question/section0/theme1/10012.answer.svg", 
+    "url" : "10012.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -107,7 +107,7 @@
     "id" : "13", 
     "section" : "0", 
     "theme" : "1", 
-    "url" : "question/section0/theme1/10013.answer.svg", 
+    "url" : "10013.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -115,7 +115,7 @@
     "id" : "14", 
     "section" : "0", 
     "theme" : "1", 
-    "url" : "question/section0/theme1/10014.answer.svg", 
+    "url" : "10014.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -123,7 +123,7 @@
     "id" : "15", 
     "section" : "0", 
     "theme" : "1", 
-    "url" : "question/section0/theme1/10015.answer.svg", 
+    "url" : "10015.p.0.svg", 
     "__v" : NumberInt(0)
 }
 { 
@@ -131,6 +131,6 @@
     "id" : "16", 
     "section" : "0", 
     "theme" : "1", 
-    "url" : "question/section0/theme1/10016.answer.svg", 
+    "url" : "10016.answer.svg", 
     "__v" : NumberInt(0)
 }

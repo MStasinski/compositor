@@ -4,6 +4,8 @@
 mat-table  {
   width: 100%;
 }
+
+
 #white-board {
   width: 600px;
   justify-content: left;
@@ -24,6 +26,15 @@ mat-table  {
     background-color: #ffffff;
     display: flex;
     justify-content: center;
+    align-items: center;
+    overflow-y: scroll
+  }
+
+  #workspace1 {
+    width: 600px;
+    height: 700px;
+    margin: 0px auto 10px auto;
+    background-color: #ffffff;
     align-items: center;
     overflow-y: scroll
   }

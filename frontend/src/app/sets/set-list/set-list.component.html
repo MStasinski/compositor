@@ -1,23 +1,29 @@
 <div id="outerspace">
   <div id="white-board">
     <div id="header">Twoje zapisane zestawy</div>
-    <div id="workspace">
-      <div *ngIf="dataSource.length==0; then listNotReady; else listReady"></div>
 
-      <ng-template #listNotReady>
+
+    <div *ngIf="(questions | async)?.length==0; then listNotReady; else listReady"></div>
+
+    <ng-template #listNotReady>
+      <div id="workspace">
         <div id="container-image text">
           <div id="image-box">
             <img id="image" src="../../../assets/img/layout/create_project_empty.png">
             <div>tu jakiś tekst</div>
           </div>
         </div>
-      </ng-template>
-
-      <ng-template #listReady>
-       <!-- <li *ngFor="let user of userObservable | async as users; index as i; first as isFirst">
-          {{i}}/{{users.length}}. {{user}} <span *ngIf="isFirst">default</span>
-        </li>-->
-      </ng-template>
-    </div>
+      </div>
+    </ng-template>
+    <ng-template #listReady>
+      <div id="workspace1">
+        <div *ngFor="let question of questions | async">
+          <div>
+            <img src="../../../assets/question/section{{question.section}}/theme{{question.theme}}/{{question.url}}">
+          </div>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>
+

@@ -56,8 +56,8 @@ import {HttpLinkModule, HttpLink} from 'apollo-angular-link-http';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 
 import {AppComponent} from './app.component';
-import {ListComponent} from './list/list.component';
-import {ItemComponent} from './item/item.component';
+import {ListComponent} from './printing/list/list.component';
+import {ItemComponent} from './printing/item/item.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CoreModule} from './core/core.module';
