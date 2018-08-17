@@ -1,0 +1,11 @@
+{ 
+    "_id" : ObjectId("5b76a4bfbc95a4361871a1ba"), 
+    "id" : "2521af10-a209-11e8-a71f-b36adffe059b", 
+    "voteCount" : NumberInt(0), 
+    "title" : "hhh", 
+    "author" : "hhh", 
+    "description" : "hhh", 
+    "topic" : "hhh", 
+    "url" : "hhh", 
+    "__v" : NumberInt(0)
+}

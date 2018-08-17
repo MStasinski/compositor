@@ -14,3 +14,4 @@ questionSchema.index({'$**': 'text'});
 
 const model = mongoose.model('question', questionSchema);
 export default model;
+

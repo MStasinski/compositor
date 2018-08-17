@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
 import {ContainerComponent, DraggableComponent, IDropResult} from 'ngx-smooth-dnd';
 import {applyDrag, generateItems} from '../utils';
 import {

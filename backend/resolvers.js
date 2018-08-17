@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import courseModel from './models/course';
 import questionModel from './models/question';
+import themeModel from './models/theme';
+import sectionModel from './models/section';
 
 var coursesData = [
     {
@@ -85,15 +87,63 @@ const resolvers = {
             return course.save();
         },
 
-        addQuestion: (root, {id, section, theme, url}) => {
+        /* addQuestion: (root, {id, section, theme, url}) => {
+             const question = new questionModel({
+                 id: id,
+                 section: section,
+                 theme: theme,
+                 url: url
+             });
+             return question.save();
+         },
+
+         addTheme: (root, {id, name}) => {
+             const theme = new themeModel({
+                 id: id,
+                 name: name,
+             });
+             return theme.save();
+         },
+
+         addQuestionToTheme: (root, {idTheme, id, section, theme, url}) => {
+             const question = {
+                 id: id,
+                 section: section,
+                 theme: theme,
+                 url: url
+             }
+
+             return themeModel.findOneAndUpdate({id: idTheme}, {$push: {"questions": question}}, {returnNewDocument: true});
+         },
+ */
+        addSection: (root, {id, name}) => {
+            const section = new sectionModel({
+                id: id,
+                name: name,
+            });
+            return section.save();
+        },
+
+        addThemeToSection: (root, {idSection, id, name}) => {
+            const theme = new themeModel({
+                id: id,
+                name: name,
+            });
+            return sectionModel.findOneAndUpdate({id: idSection}, {$push: {"themes": theme}}, {returnNewDocument: true});
+        },
+
+        addQuestionToTheme: (root, {idSection, idTheme, id, section, theme, url}) => {
+
             const question = new questionModel({
                 id: id,
                 section: section,
                 theme: theme,
                 url: url
             });
-            return question.save();
-        }
+
+            return sectionModel.findOneAndUpdate({$and: [ {id:idSection }, { "themes.id": idTheme }]}, {$push: {"themes.$.questions": question}}, {returnNewDocument: true});
+        },
+
     }
 }
 
